@@ -13,9 +13,9 @@ export default class ShelfSelection extends Component {
     return (
       <div className="book-shelf-changer">
         <select
-          value={this.props.shelf}
+          value={this.props.book.shelf}
           onChange={(event) =>
-            this.props.updateShelf(this.props.id, event.target.value)
+            this.props.updateShelf(this.props.book, event.target.value)
           }
         >
           {this.state.shelves.map((shelf) => {

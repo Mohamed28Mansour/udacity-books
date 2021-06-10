@@ -5,12 +5,10 @@ import * as BooksAPI from "../BooksAPI";
 
 export default class Search extends Component {
   state = {
-    query: "",
     result: [],
   };
 
   searchList = async (query) => {
-    this.setState({ query: query.trim() });
     let result;
     if (query.length > 0) {
       result = await BooksAPI.search(query);
@@ -31,7 +29,6 @@ export default class Search extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              value={this.state.query}
               onChange={(event) => this.searchList(event.target.value)}
             />
           </div>
@@ -45,15 +42,20 @@ export default class Search extends Component {
                   <div className="book-top">
                     <img
                       className="book-cover"
-                      src={book.imageLinks.smallThumbnail}
+                      src={
+                        book.imageLinks
+                          ? book.imageLinks.smallThumbnail
+                          : "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1055&q=80"
+                      }
                       alt={book.title}
                     />
                     <ShelfSelection
-                      id={book.id}
-                      shelf={book.shelf}
+                      book={book}
                       updateShelf={this.props.updateShelf}
                     />
                   </div>
+                  <p className="book-title">{book.title}</p>
+                  <p className="book-authors">{book.authors}</p>
                 </div>
               );
             })}

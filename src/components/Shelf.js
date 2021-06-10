@@ -24,7 +24,6 @@ export default class Shelf extends Component {
         </h2>
         {this.props.books &&
           this.props.books.map((book) => {
-            console.log(book);
             return (
               <div key={book.id}>
                 <div className="bookshelf-books">

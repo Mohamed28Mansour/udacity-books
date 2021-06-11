@@ -16,12 +16,14 @@ export default class Search extends Component {
     } else {
       result = [];
     }
-    result = await Promise.all(
-      result.map(async (singleBook) => {
-        let updatedBook = await BooksAPI.get(singleBook.id);
-        return updatedBook;
-      })
-    );
+    if (result.length > 0) {
+      result = await Promise.all(
+        result.map(async (singleBook) => {
+          let updatedBook = await BooksAPI.get(singleBook.id);
+          return updatedBook;
+        })
+      );
+    }
 
     this.setState({ result });
     console.log(result);

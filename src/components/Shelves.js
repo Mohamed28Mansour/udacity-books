@@ -28,20 +28,6 @@ export default class Shelves extends Component {
             })}
             updateShelf={this.props.updateShelf}
           />
-          {/* <div>
-            <CurrentlyReading
-              books={this.props.books}
-              updateShelf={this.props.updateShelf}
-            />
-            <WantToRead
-              books={this.props.books}
-              updateShelf={this.props.updateShelf}
-            />
-            <Read
-              books={this.props.books}
-              updateShelf={this.props.updateShelf}
-            />
-          </div> */}
         </div>
         <Link className="open-search" to="/search">
           <button>Add a book</button>

@@ -9,13 +9,22 @@ export default class Search extends Component {
   };
 
   searchList = async (query) => {
+    console.log(query);
     let result;
-    if (query.length > 0) {
-      result = await BooksAPI.search(query);
+    if (query.trim().length > 0) {
+      result = await BooksAPI.search(query.trim());
     } else {
       result = [];
     }
+    result = await Promise.all(
+      result.map(async (singleBook) => {
+        let updatedBook = await BooksAPI.get(singleBook.id);
+        return updatedBook;
+      })
+    );
+
     this.setState({ result });
+    console.log(result);
   };
 
   render() {

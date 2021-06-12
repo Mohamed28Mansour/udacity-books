@@ -2,32 +2,31 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import ShelfSelection from "./ShelfSelection";
 import * as BooksAPI from "../BooksAPI";
+import { debounce } from "throttle-debounce";
 
 export default class Search extends Component {
   state = {
     result: [],
   };
 
-  searchList = async (query) => {
-    console.log(query);
+  searchList = debounce(500, async (query) => {
     let result;
     if (query.trim().length > 0) {
       result = await BooksAPI.search(query.trim());
+      if (result.length > 0) {
+        result = await Promise.all(
+          result.map(async (singleBook) => {
+            let updatedBook = await BooksAPI.get(singleBook.id);
+            return updatedBook;
+          })
+        );
+      }
     } else {
       result = [];
     }
-    if (result.length > 0) {
-      result = await Promise.all(
-        result.map(async (singleBook) => {
-          let updatedBook = await BooksAPI.get(singleBook.id);
-          return updatedBook;
-        })
-      );
-    }
 
     this.setState({ result });
-    console.log(result);
-  };
+  });
 
   render() {
     return (
